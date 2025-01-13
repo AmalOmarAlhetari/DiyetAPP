@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            // View elements
+           
             usernameInput = findViewById(R.id.username_input);
             weightInput = findViewById(R.id.weight_input);
             heightInput = findViewById(R.id.height_input);
@@ -37,7 +37,7 @@ import androidx.appcompat.app.AppCompatActivity;
             updateButton = findViewById(R.id.update_button);
             genderGroup = findViewById(R.id.gender_group);
 
-  // Calculate button click event
+ 
             calculateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -45,8 +45,7 @@ import androidx.appcompat.app.AppCompatActivity;
                     String weightStr = weightInput.getText().toString().trim();
                     String heightStr = heightInput.getText().toString().trim();
 
-//Kullanıcıdan alınan değerler (username, weightStr, heightStr) kontrol edilir.
-// Eğer eksik bilgi varsa bir Toast mesajı ile uyarı gösterilir.
+
                     if (username.isEmpty()) {
                         Toast.makeText(MainActivity.this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
                         return;
@@ -59,18 +58,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
                     try {
                         float weight = Float.parseFloat(weightStr);
-                        float height = Float.parseFloat(heightStr) / 100; // Convert cm to meters
+                        float height = Float.parseFloat(heightStr) / 100; 
 
                         if (weight <= 0 || height <= 0) {
                             Toast.makeText(MainActivity.this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        // Calculate BMI
+                        
                         float bmi = weight / (height * height);
                         resultText.setText(String.format("BMI: %.2f", bmi));
 
-                        // Determine advice and image
+                       
                         if (bmi < 18.5) {
                             adviceText.setText("Zayıfsınız. Kilo almaya çalışın." +
                                      "\nDaha fazla kalori almak için fındık, avokado ve tam tahıllı gıdalar gibi besleyici yiyecekler tüketmeye çalışın");
@@ -86,9 +85,7 @@ import androidx.appcompat.app.AppCompatActivity;
                         }
                         adviceImage.setVisibility(View.VISIBLE);
 
-  // Save user data using SharedPreferences
- //putFloat(): Kullanıcının kilo ve boy bilgileri, benzersiz bir anahtar
- // (ör. username_weight) ile saklanır.
+
 
                         SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -106,9 +103,7 @@ import androidx.appcompat.app.AppCompatActivity;
                 }
             });
 
-            // Update button click event
-            //putFloat(): Kullanıcının kilo ve boy bilgileri, benzersiz bir anahtar
-            // (ör. username_weight) ile saklanır.
+            
             updateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,18 +121,17 @@ import androidx.appcompat.app.AppCompatActivity;
                         Toast.makeText(MainActivity.this, "No data found for this user.", Toast.LENGTH_SHORT).show();
                     } else {
                         weightInput.setText(String.valueOf(weight));
-                        heightInput.setText(String.valueOf(height * 100)); // Convert meters to cm
+                        heightInput.setText(String.valueOf(height * 100));
                     }
                 }
             });
         }
-//Kullanıcının cinsiyetine göre ideal BMI aralığı belirlenir.
-//Ortalama ideal kilo hesaplanır ve sonuç olarak döndürülür.
+
         private float calculateIdealWeight(float height, boolean isMale) {
             if (isMale) {
-                return height * height * 22; // Use fixed BMI for males
+                return height * height * 22; 
             } else {
-                return height * height * 21; // Use fixed BMI for females
+                return height * height * 21;
             }
         }
     }
