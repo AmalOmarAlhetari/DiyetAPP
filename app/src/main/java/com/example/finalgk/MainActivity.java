@@ -51,10 +51,8 @@ import androidx.appcompat.app.AppCompatActivity;
                         return;
                     }
 
-                    // Get selected gender
-                    int selectedId = genderGroup.getCheckedRadioButtonId();
-                    selectedGender = findViewById(selectedId);
-                    boolean isMale = selectedGender.getId() == R.id.radio_male;
+                    RadioButton radioMale = findViewById(R.id.radio_male);
+                    boolean isMale = radioMale.isChecked();
 
                     try {
                         float weight = Float.parseFloat(weightStr);
@@ -93,7 +91,7 @@ import androidx.appcompat.app.AppCompatActivity;
                         editor.putFloat(username + "_height", height);
                         editor.apply();
 
-                        // Calculate and display ideal weight
+                
                         float idealWeight = calculateIdealWeight(height, isMale);
                         adviceText.append("\nİdeal kilonuz yaklaşık " + idealWeight + " kg.");
 
