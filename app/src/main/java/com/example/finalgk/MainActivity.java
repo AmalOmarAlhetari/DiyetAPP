@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-           
+
             usernameInput = findViewById(R.id.username_input);
             weightInput = findViewById(R.id.weight_input);
             heightInput = findViewById(R.id.height_input);
@@ -37,17 +37,18 @@ import androidx.appcompat.app.AppCompatActivity;
             updateButton = findViewById(R.id.update_button);
             genderGroup = findViewById(R.id.gender_group);
 
- 
+
             calculateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String username = usernameInput.getText().toString().trim();
-                    String weightStr = weightInput.getText().toString().trim();
-                    String heightStr = heightInput.getText().toString().trim();
+                    String username = usernameInput.getText().toString();
+                    String weightStr = weightInput.getText().toString();
+                    String heightStr = heightInput.getText().toString();
+
 
 
                     if (username.isEmpty()) {
-                        Toast.makeText(MainActivity.this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -56,18 +57,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
                     try {
                         float weight = Float.parseFloat(weightStr);
-                        float height = Float.parseFloat(heightStr) / 100; 
+                        float height = Float.parseFloat(heightStr) / 100;
 
                         if (weight <= 0 || height <= 0) {
-                            Toast.makeText(MainActivity.this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Lütfen geçerli sayılar girin.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        
+
                         float bmi = weight / (height * height);
                         resultText.setText(String.format("BMI: %.2f", bmi));
 
-                       
+
                         if (bmi < 18.5) {
                             adviceText.setText("Zayıfsınız. Kilo almaya çalışın." +
                                      "\nDaha fazla kalori almak için fındık, avokado ve tam tahıllı gıdalar gibi besleyici yiyecekler tüketmeye çalışın");
@@ -85,13 +86,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 
+
+
                         SharedPreferences sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putFloat(username + "_weight", weight);
                         editor.putFloat(username + "_height", height);
                         editor.apply();
 
-                
+
                         float idealWeight = calculateIdealWeight(height, isMale);
                         adviceText.append("\nİdeal kilonuz yaklaşık " + idealWeight + " kg.");
 
@@ -101,10 +104,11 @@ import androidx.appcompat.app.AppCompatActivity;
                 }
             });
 
-            
+
+
             updateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     String username = usernameInput.getText().toString().trim();
                     if (username.isEmpty()) {
                         Toast.makeText(MainActivity.this, "Please enter a username to update data.", Toast.LENGTH_SHORT).show();
@@ -125,9 +129,10 @@ import androidx.appcompat.app.AppCompatActivity;
             });
         }
 
+
         private float calculateIdealWeight(float height, boolean isMale) {
             if (isMale) {
-                return height * height * 22; 
+                return height * height * 22;
             } else {
                 return height * height * 21;
             }
